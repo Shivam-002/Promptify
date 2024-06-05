@@ -1,30 +1,19 @@
 import os
-from crewai import Agent, Task, Crew, Process
-from langchain_openai import ChatOpenAI
+from crewai import Crew
 from decouple import config
 
 from textwrap import dedent
 from agents import CustomAgents
 from tasks import CustomTasks
-
-# Install duckduckgo-search for this example:
-# !pip install -U duckduckgo-search
-
-from langchain.tools import DuckDuckGoSearchRun
+from langchain_community.tools import DuckDuckGoSearchRun
 
 search_tool = DuckDuckGoSearchRun()
 
-os.environ["OPENAI_API_KEY"] = config("OPENAI_API_KEY")
-os.environ["OPENAI_ORGANIZATION"] = config("OPENAI_ORGANIZATION_ID")
-
-# This is the main class that you will use to define your custom crew.
-# You can define as many agents and tasks as you want in agents.py and tasks.py
-
 
 class CustomCrew:
-    def __init__(self, var1, var2):
-        self.var1 = var1
-        self.var2 = var2
+    def __init__(self, input_prompt, context=None):
+        self.input_prompt = input_prompt
+        self.context = context
 
     def run(self):
         # Define your custom agents and tasks in agents.py and tasks.py
@@ -32,25 +21,57 @@ class CustomCrew:
         tasks = CustomTasks()
 
         # Define your custom agents and tasks here
-        custom_agent_1 = agents.agent_1_name()
-        custom_agent_2 = agents.agent_2_name()
+        prompt_designer = agents.prompt_designer()
+        keyword_specalist = agents.keyword_specialist()
+        context_analyst = agents.context_analyst()
+        ethics_advisor = agents.ethics_advisor()
+        creative_director = agents.creative_director()
+        markdown_specialist = agents.markdown_specialist()
 
         # Custom tasks include agent name and variables as input
-        custom_task_1 = tasks.task_1_name(
-            custom_agent_1,
-            self.var1,
-            self.var2,
+        task_structure_prompt = tasks.structure_task(
+            prompt_designer,
+            self.input_prompt,
         )
 
-        custom_task_2 = tasks.task_2_name(
-            custom_agent_2,
+        task_keyword_generation = tasks.keyword_generation(
+            keyword_specalist,
+            self.input_prompt,
+        )
+
+        task_context_analysis = tasks.context_analysis(
+            context_analyst,
+            self.input_prompt,
+            self.context,
+        )
+
+        task_ethics_check = tasks.ethics_check(
+            ethics_advisor,
+            self.input_prompt,
+        )
+
+        task_markdown_check = tasks.markdown_check(
+            markdown_specialist,
+            self.input_prompt,
         )
 
         # Define your custom crew here
         crew = Crew(
-            agents=[custom_agent_1, custom_agent_2],
-            tasks=[custom_task_1, custom_task_2],
-            verbose=True,
+            agents=[
+                prompt_designer,
+                keyword_specalist,
+                context_analyst,
+                ethics_advisor,
+                creative_director,
+                markdown_specialist,
+            ],
+            tasks=[
+                task_structure_prompt,
+                task_keyword_generation,
+                task_context_analysis,
+                task_ethics_check,
+                task_markdown_check,
+            ],
         )
 
         result = crew.kickoff()
@@ -61,10 +82,9 @@ class CustomCrew:
 if __name__ == "__main__":
     print("## Welcome to Crew AI Template")
     print("-------------------------------")
-    var1 = input(dedent("""Enter variable 1: """))
-    var2 = input(dedent("""Enter variable 2: """))
-
-    custom_crew = CustomCrew(var1, var2)
+    input_prompt = input("Enter your prompt: ")
+    context = input("Enter additional context (optional): ")
+    custom_crew = CustomCrew(input_prompt, context)
     result = custom_crew.run()
     print("\n\n########################")
     print("## Here is you custom crew run result:")
