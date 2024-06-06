@@ -36,7 +36,7 @@ ENV/
 env.bak/
 venv/
 .venv/
-/promptify
+/backend/promptify
 
 # pyenv
 .python-version
