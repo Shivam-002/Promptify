@@ -37,7 +37,30 @@ function InputInterface() {
         text: activeState.lastMessage,
       },
     ]);
-    //TODO : query
+    query(
+      activeState.lastMessage,
+      null,
+      (res) => {
+        handleMessagesChange((prevState) => [
+          ...prevState,
+          {
+            author: AUTHOR.AI,
+            text: res.data,
+          },
+        ]);
+        handleGlobalStateChange((prevState) => ({
+          ...prevState,
+          state: States.WAITING_FOR_MESSAGE,
+        }));
+      },
+      (error) => {
+        message.error("Failed to query the model. Please try again later.");
+        handleGlobalStateChange((prevState) => ({
+          ...prevState,
+          state: States.WAITING_FOR_MESSAGE,
+        }));
+      }
+    );
   };
 
   return (
