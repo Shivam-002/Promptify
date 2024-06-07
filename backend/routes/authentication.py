@@ -3,6 +3,7 @@ from fastapi import APIRouter
 
 router = APIRouter()
 
-@router.get("/auth")
+
+@router.get("/authenticate")
 def authenticate():
     return {"message": "Authentication route"}
