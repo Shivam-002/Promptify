@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Avatar, message, Switch } from "antd";
-import { BugOutlined } from "@ant-design/icons";
+import { BugOutlined, GoogleOutlined } from "@ant-design/icons";
 
 import "./../css/Header.css";
 import { useGlobalStateContext } from "../provider/GlobalStateProvider";
 import PromptifyLogo from "./PromptifyLogo";
+import { GoogleLogin } from "@react-oauth/google";
 
 function Header() {
   const { activeState, handleGlobalStateChange } = useGlobalStateContext();
@@ -18,6 +19,20 @@ function Header() {
       debugMode: checked,
     });
   };
+
+  const onGoogleLoginSuccess = (response) => {
+    message.success("Google Login Successful!");
+    const token = response.credential;
+    localStorage.setItem("token", token);
+  };
+
+  const onGoogleLoginError = (error) => {
+    message.error("Google Login Failed!");
+  };
+
+  useEffect(() => {
+    console.log(document.cookie);
+  }, []);
 
   return (
     <div className="header-container">
@@ -42,7 +57,14 @@ function Header() {
           />
           <Switch onChange={onDebugModeChange} />
         </div>
-        <Avatar
+        <GoogleLogin
+          onSuccess={onGoogleLoginSuccess}
+          onError={onGoogleLoginError}
+          useOneTap
+          auto_select
+        />
+        ;
+        {/* <Avatar
           style={{
             backgroundColor: "#f56a00",
             verticalAlign: "middle",
@@ -51,7 +73,7 @@ function Header() {
           gap={1}
         >
           {"S"}
-        </Avatar>
+        </Avatar> */}
       </div>
     </div>
   );

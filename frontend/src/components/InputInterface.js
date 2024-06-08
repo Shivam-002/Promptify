@@ -55,6 +55,7 @@ function InputInterface() {
       },
       (error) => {
         message.error("Failed to query the model. Please try again later.");
+        console.error("query failed : ", error);
         handleGlobalStateChange((prevState) => ({
           ...prevState,
           state: States.WAITING_FOR_MESSAGE,

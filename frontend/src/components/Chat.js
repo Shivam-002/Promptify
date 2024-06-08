@@ -11,8 +11,6 @@ function Chat() {
 
   const { messages, handleMessagesChange } = useMessageContext();
 
-  console.log("activeState : ", activeState);
-  console.log("hint : ", STATE_HINTS[activeState.state]);
   return (
     <div
       className="chat-container"

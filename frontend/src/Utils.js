@@ -13,6 +13,8 @@ export const STATE_HINTS = {
 export const BASE_URL = "http://localhost:8000/api/v1/";
 export const ENDPOINTS = {
   QUERY: `${BASE_URL}query`,
+  LOGIN: `${BASE_URL}auth/google`,
+  TEST: `${BASE_URL}test`,
 };
 
 export const AUTHOR = {
