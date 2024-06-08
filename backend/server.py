@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from routes.authentication import router as auth_router
+from routes.chat import router as chat_router
 from routes.query import router as query_router
 
 app = FastAPI()
@@ -12,7 +13,7 @@ origins = [
 
 app.include_router(auth_router, prefix="/api/v1/auth", tags=["Authentication"])
 app.include_router(query_router, prefix="/api/v1/query", tags=["Query"])
-
+app.include_router(chat_router, prefix="/api/v1/chat", tags=["Chat"])
 
 app.add_middleware(
     CORSMiddleware,
