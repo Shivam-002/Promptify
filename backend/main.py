@@ -17,41 +17,49 @@ class CustomCrew:
 
     def run(self):
         # Define your custom agents and tasks in agents.py and tasks.py
-        custom_agents = CustomAgents()
+        custom_agents = CustomAgents(self.input_prompt)
         tasks = CustomTasks()
 
         # Define your custom agents and tasks here
-        prompt_designer = custom_agents.prompt_designer()
+        prompt_engineer = custom_agents.prompt_engineer()
+        prompt_researcher = custom_agents.prompt_researcher()
         prompt_builder = custom_agents.prompt_builder()
-        markdown_specialist = custom_agents.markdown_specialist()
 
-        # Custom tasks include agent name and variables as input
-        task_structure_prompt = tasks.structure_task(
-            prompt_designer,
+        task_input_question_list = tasks.prompt_input_question_list(
+            prompt_engineer,
             self.input_prompt,
         )
 
-        task_prompt_generation = tasks.prompt_generation(
-            prompt_builder,
+        task_output_question_list = tasks.prompt_output_question_list(
+            prompt_engineer,
+            self.input_prompt,
+        )
+
+        task_prompt_research = tasks.prompt_research(
+            prompt_researcher,
             self.input_prompt,
             self.context,
         )
 
-        task_markdown_check = tasks.markdown_check(
-            markdown_specialist,
+        task_builder_prompt = tasks.prompt_build(
+            prompt_builder,
+            task_input_question_list,
+            task_output_question_list,
+            task_prompt_research,
         )
 
         # Define your custom crew here
         crew = Crew(
             agents=[
-                prompt_designer,
+                prompt_engineer,
+                prompt_researcher,
                 prompt_builder,
-                # markdown_specialist,
             ],
             tasks=[
-                task_structure_prompt,
-                task_prompt_generation,
-                # task_markdown_check,
+                task_input_question_list,
+                task_output_question_list,
+                task_prompt_research,
+                task_builder_prompt,
             ],
             verbose=True,
         )

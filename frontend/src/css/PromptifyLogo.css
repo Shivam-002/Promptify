@@ -1,0 +1,27 @@
+.promptify-logo {
+  font-size: 2rem;
+}
+
+@media (max-width: 768px) {
+  .promptify-logo {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .promptify-logo {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .promptify-logo {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .promptify-logo {
+    font-size: 1.1rem;
+  }
+}

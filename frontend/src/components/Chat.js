@@ -4,13 +4,12 @@ import MessageBox from "./MessageBox";
 import "./../css/Chat.css";
 import { useMessageContext } from "../provider/MessageStateProvider";
 import { useGlobalStateContext } from "../provider/GlobalStateProvider";
-import { STATE_HINTS } from "../Utils";
-
+import PromptTemplateGroup from "./PromptTemplateGroup";
+import { States } from "../Utils";
 function Chat() {
   const { activeState, handleGlobalStateChange } = useGlobalStateContext();
 
   const { messages, handleMessagesChange } = useMessageContext();
-
   return (
     <div
       className="chat-container"
@@ -27,15 +26,10 @@ function Chat() {
           />
         ))
       ) : (
-        <h2
-          style={{
-            alignSelf: "center",
-            textAlign: "center",
-            color: "gray",
-          }}
-        >
-          {STATE_HINTS[activeState.state]}
-        </h2>
+        <PromptTemplateGroup />
+      )}
+      {activeState.state === States.PROCESSING_MESSAGE && (
+        <MessageBox author="AI" input_message={""} is_skeleton={true} />
       )}
     </div>
   );

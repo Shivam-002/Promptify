@@ -2,7 +2,6 @@ import axios from "axios";
 import { ENDPOINTS } from "./Utils";
 
 const get_auth_header = () => {
-  console.log("token", localStorage.getItem("token"));
   return {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -12,7 +11,6 @@ const get_auth_header = () => {
 
 export const query = async (input_prompt, context, on_succes, on_failure) => {
   axios.interceptors.request.use((request) => {
-    console.log("Starting Request", JSON.stringify(request, null, 2));
     return request;
   });
   const endpoint = `${ENDPOINTS.QUERY}?input_prompt=${input_prompt}&context=${context}`;

@@ -11,21 +11,27 @@ import { GlobalStateProvider } from "./provider/GlobalStateProvider";
 import { MessageStateProvider } from "./provider/MessageStateProvider";
 
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { UserProvider } from "./provider/UserStateProvider";
+import { ScreenStateProvider } from "./provider/ScreenStateProvider";
 
 function App() {
-  console.log(process.env.REACT_APP_GOOGLE_CLIENT_ID);
+
 
   return (
     <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
       <Router>
         <GlobalStateProvider>
-          <MessageStateProvider>
-            <div className="App">
-              <Routes>
-                <Route path="/" element={<Home />} />
-              </Routes>
-            </div>
-          </MessageStateProvider>
+          <ScreenStateProvider>
+            <UserProvider>
+              <MessageStateProvider>
+                <div className="App">
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                  </Routes>
+                </div>
+              </MessageStateProvider>
+            </UserProvider>
+          </ScreenStateProvider>
         </GlobalStateProvider>
       </Router>
     </GoogleOAuthProvider>
