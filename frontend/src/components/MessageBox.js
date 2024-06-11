@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar, Tooltip, message } from "antd";
+import { Avatar, Skeleton, Tooltip, message } from "antd";
 import { CopyOutlined, RedoOutlined } from "@ant-design/icons";
 import "./../css/MessageBox.css";
 import ReactMarkdown from "react-markdown";
@@ -7,7 +7,8 @@ import { AUTHOR, States } from "../Utils";
 import { useGlobalStateContext } from "../provider/GlobalStateProvider";
 import { useMessageContext } from "../provider/MessageStateProvider";
 import { query } from "../api";
-function MessageBox({ author, input_message }) {
+import { useUserContext } from "../provider/UserStateProvider";
+function MessageBox({ author, input_message, is_skeleton }) {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(input_message);
     message.success("Copied to clipboard!");
@@ -15,6 +16,7 @@ function MessageBox({ author, input_message }) {
 
   const { activeState, handleGlobalStateChange } = useGlobalStateContext();
   const { messages, handleMessagesChange } = useMessageContext();
+  const { user, handleUserChange } = useUserContext();
 
   const queryQuestion = () => {};
   const regenerate = () => {
@@ -37,47 +39,54 @@ function MessageBox({ author, input_message }) {
   return (
     <div className="message-box">
       {author === "AI" ? (
-        <Avatar size={50} className="ai-avatar">
-          AI
-        </Avatar>
+        <Avatar className="ai-avatar">AI</Avatar>
+      ) : user.picture_url ? (
+        <img
+          className="user-img"
+          src={user.picture_url}
+          alt="User Profile Photo"
+        />
       ) : (
-        <svg
-          width="50"
-          height="49"
-          viewBox="0 0 37 36"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          //TODO : SVG LOGO
-        </svg>
+        <Avatar className="user-avatar">
+          {user.name ? user.name[0] : "U"}
+        </Avatar>
       )}
 
-      <div className="message-content">
-        <ReactMarkdown className="message-text">{input_message}</ReactMarkdown>
-        <div className="icon-container">
-          {input_message && (
-            <Tooltip title="Copy">
-              <CopyOutlined className="quick-icon" onClick={copyToClipboard} />
-            </Tooltip>
-          )}
-          {author !== "AI" && (
-            <Tooltip title="Regenerate">
-              <RedoOutlined
-                className={`quick-icon ${
-                  activeState.state === States.PROCESSING_MESSAGE
-                    ? "disable-quick-icon"
-                    : ""
-                }`}
-                onClick={
-                  activeState.state === States.PROCESSING_MESSAGE
-                    ? null
-                    : regenerate
-                }
-              />
-            </Tooltip>
-          )}
+      {!is_skeleton ? (
+        <div className="message-content">
+          <ReactMarkdown className="message-text">
+            {input_message}
+          </ReactMarkdown>
+          <div className="icon-container">
+            {input_message && (
+              <Tooltip title="Copy">
+                <CopyOutlined
+                  className="quick-icon"
+                  onClick={copyToClipboard}
+                />
+              </Tooltip>
+            )}
+            {author !== "AI" && (
+              <Tooltip title="Regenerate">
+                <RedoOutlined
+                  className={`quick-icon ${
+                    activeState.state === States.PROCESSING_MESSAGE
+                      ? "disable-quick-icon"
+                      : ""
+                  }`}
+                  onClick={
+                    activeState.state === States.PROCESSING_MESSAGE
+                      ? null
+                      : regenerate
+                  }
+                />
+              </Tooltip>
+            )}
+          </div>
         </div>
-      </div>
+      ) : (
+        <Skeleton active paragraph={{ rows: 3 }} />
+      )}
     </div>
   );
 }

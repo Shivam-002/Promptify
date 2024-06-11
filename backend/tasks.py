@@ -7,6 +7,85 @@ from textwrap import dedent
 # You can also define custom agents in agents.py
 class CustomTasks:
 
+    def prompt_input_question_list(self, agent, input_prompt):
+        return Task(
+            description=dedent(
+                f"""
+                Generate a list of questions that a good, professional prompt should cover based
+                on the input prompt.
+
+                You must use the input prompt while researching.
+                
+                Input Prompt: {input_prompt}
+        """
+            ),
+            expected_output=dedent(
+                f"""
+                [Tasks]
+                A list of questions.
+        """
+            ),
+            agent=agent,
+            async_execution=True,
+        )
+
+    def prompt_output_question_list(self, agent, input_prompt):
+        return Task(
+            description=dedent(
+                f"""
+                Research and generate a structure, format that the final output should have
+                based on the input prompt.
+                
+                Input Prompt: {input_prompt}
+        """
+            ),
+            expected_output=dedent(
+                f"""
+                [Output]
+                Final Answer Structure.
+        """
+            ),
+            agent=agent,
+            async_execution=True,
+        )
+
+    def prompt_research(self, agent, input_prompt, context=None):
+        return Task(
+            description=dedent(
+                f"""
+                Find relevant topics, information, key points, and context on the given input prompt.
+                
+                Input Prompt: {input_prompt}
+                Context: {context}
+        """
+            ),
+            expected_output=dedent(
+                f"""
+                A well-structured output properly formatted with relevant information.
+        """
+            ),
+            agent=agent,
+            async_execution=True,
+        )
+
+    def prompt_build(
+        self, agent, task_input_question, task_output_question, task_research
+    ):
+        return Task(
+            description=dedent(
+                f"""
+                Build a prompt using the information gathered by your team.
+        """
+            ),
+            expected_output=dedent(
+                f"""
+                A well-structured, clear, concise prompt build using markdown format.
+        """
+            ),
+            agent=agent,
+            context=[task_input_question, task_output_question, task_research],
+        )
+
     def structure_task(self, agent, input_prompt, context=None):
         return Task(
             description=dedent(
@@ -72,21 +151,19 @@ class CustomTasks:
             agent=agent,
         )
 
-    def markdown_check(self, agent):
+    def markdown_formatting(self, agent):
         return Task(
             description=dedent(
                 f"""
-                Use your expertise to identify any markdown formatting issues in the final answer.
-                Corrections should be provided for any missing or incorrect markdown syntax.
-                The response should ensure that the final answer is properly formatted and structured.
+                Use your expertise to format the response in markdown syntax. Use proper 
+                headings, bullet points, (extra) new lines and other markdown formatting 
+                techniques to make the response more readable and structured.
 
         """
             ),
             expected_output=dedent(
                 f"""
-                Professional response that is well-structured, clear, concise and descriptive.
-                The response should be well formatted using markdown syntax and should be free
-                from any formatting issues.
+                A well-formatted response in markdown syntax.
         """
             ),
             agent=agent,

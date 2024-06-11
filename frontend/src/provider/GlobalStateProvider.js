@@ -9,7 +9,6 @@ export const GlobalStateProvider = ({ children }) => {
   const [activeState, setActiveState] = useState({
     state: States.WAITING_FOR_MESSAGE,
     lastMessage: "",
-    debugMode: false,
   });
 
   const handleGlobalStateChange = (globalState) => {

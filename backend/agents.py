@@ -15,33 +15,49 @@ llm_model = ChatGoogleGenerativeAI(
 
 class CustomAgents:
 
-    def prompt_designer(self):
+    def __init__(self, input_prompt):
+        self.input_prompt = input_prompt
+
+    def prompt_engineer(self):
         return Agent(
-            role="Professional Prompt Designer",
+            role="Prompt Engineer",
             backstory=dedent(
                 f"""
-                    One of the best prompt designer in the world with a deep understanding 
-                    of prompt engineering.
+                    You are a professional prompt engineer with expertise in understanding and
+                    working with prompts.
 
-                    You have expertise in creating high-quality prompts for AI models.
+                    You have a lot of experience in prompt building, designing, and structuring. 
                 """
             ),
             goal=dedent(
                 f"""
-                    Generate a small plan that is based on the given input prompt and
-                    context.
-
-                    The plan will guilde the LLM/AI model to generate a professional 
-                    prompt.
-
-                    The plan cover points to generate a prompt that is well-structured,
-                    clear, concise and descriptive.
-
-                    The plan is not for answering the input prompt but to generate a
-                    professional prompt.
-
+                    Use your expertise to complete the task as per the instructions.
                 """
             ),
+            allow_delegation=False,
+            verbose=True,
+            llm=llm_model,
+        )
+
+    def prompt_researcher(self):
+        return Agent(
+            role="Prompt Researcher",
+            backstory=dedent(
+                f"""
+                    You are a professional prompt researcher with expertise in finding relevant 
+                    information on a wide range of prompts.
+
+                    You have experience in conducting in-depth research and analysis to 
+                    gather valuable insights and data on prompts.
+                """
+            ),
+            goal=dedent(
+                f"""
+                    To find relevant topics, information, data, keywords, key points, and 
+                    context on the given input prompt.
+                """
+            ),
+            tools=[SearchTools.search_internet],
             allow_delegation=False,
             verbose=True,
             llm=llm_model,
@@ -52,52 +68,54 @@ class CustomAgents:
             role="Prompt Builder",
             backstory=dedent(
                 f"""
-                You are an expert in creating high-quality prompts. You have a deep 
-                understanding of prompt engineering.
+                    You are a professional prompt builder with expertise in creating high-quality 
+                    prompts for AI models.
 
-                You have expertise in creating high-quality prompts for AI models.
-
-        """
+                    You have experience in generating well-structured, clear, concise, and 
+                    descriptive prompts.
+                """
             ),
             goal=dedent(
                 f"""
-                With the provided plan, generate a more descriptive prompt that is
-                well-structured, clear, concise and descriptive.
-
-                The prompt should be more about describing the input prompt in a
-                well-structured way not to answer it.
-
-                Use this words(not compulsory):
-                [provide, cover, explain, describe, give, answer, write, response,
-                 generate, create, build, develop, construct, compose, make, define,
-                 design, etc...]
-        """
+                    Generate a high-quality,descriptive and professional prompt that is 
+                    well-structured, clear and concise based on the information gathered
+                    by the team.
+                """
             ),
             allow_delegation=False,
             verbose=True,
             llm=llm_model,
         )
 
-    def markdown_specialist(self):
-        return Agent(
-            role="Markdown Specialist",
-            backstory=dedent(
-                f"""
-                    You have expertise in markdown formatting and syntax. You're familiar 
-                    with different markdown elements and their usage in creating structured
-                    and visually appealing content.
-        """
-            ),
-            goal=dedent(
-                f"""
-                Convert the generated content into markdown format, ensuring proper formatting and structure.
-                Use markdown syntax to create headings, lists, links,colors and other elements to make the content
-                visually appealing and easy to read.
+    # def prompt_builder(self):
+    #     return Agent(
+    #         role="Prompt Builder",
+    #         backstory=dedent(
+    #             f"""
+    #             You are an expert in creating high-quality prompts. You have a deep 
+    #             understanding of prompt engineering.
 
-                Also use advanced markdown features like tables, images, and code blocks where necessary.
-        """
-            ),
-            allow_delegation=False,
-            verbose=True,
-            llm=llm_model,
-        )
+    #             You have expertise in creating high-quality prompts for AI models.
+
+    #     """
+    #         ),
+    #         goal=dedent(
+    #             f"""
+    #             With the provided plan, generate a more descriptive prompt that is
+    #             well-structured, clear, concise and descriptive.
+
+    #             The prompt should be more about describing the input prompt in a
+    #             well-structured way not to answer it.
+
+    #             Use this words(not compulsory):
+    #             [provide, cover, explain, describe, give, answer, write, response,
+    #              generate, create, build, develop, construct, compose, make, define,
+    #              design, etc...]
+    #     """
+    #         ),
+    #         allow_delegation=False,
+    #         verbose=True,
+    #         llm=llm_model,
+    #     )
+
+

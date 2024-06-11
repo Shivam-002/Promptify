@@ -1,0 +1,29 @@
+.prompt-template {
+  max-width: 300px;
+  min-height: 250px;
+  background-color: rgb(252, 252, 252);
+  scale: 1;
+}
+
+.prompt-template:hover {
+  background-color: rgb(249, 249, 249);
+  cursor: pointer;
+  scale: 1.02;
+}
+
+.prompt-icon {
+  max-width: 25px;
+  max-height: 25px;
+}
+
+@media (max-width: 768px) {
+}
+
+@media (max-width: 576px) {
+}
+
+@media (max-width: 480px) {
+}
+
+@media (max-width: 375px) {
+}

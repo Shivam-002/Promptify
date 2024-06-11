@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ReactTyped } from "react-typed";
+import "./../css/PromptifyLogo.css";
 function PromptifyLogo() {
   return (
     <div
@@ -10,21 +11,20 @@ function PromptifyLogo() {
         alignItems: "center",
       }}
     >
-      <h1
+      <ReactTyped
+        strings={["Welcome to Promptify!"]}
+        typeSpeed={50}
+        showCursor={false}
+        className="promptify-logo"
         style={{
-          color: "black",
+          fontFamily: "Rubik",
+          color: "#000",
+          fontWeight: "bold",
         }}
-      >
-        <strong>
-          <ReactTyped
-            strings={["Welcome to Promptify"]}
-            typeSpeed={50}
-            showCursor={false}
-          />
-        </strong>
-      </h1>
+      />
     </div>
   );
 }
 
 export default PromptifyLogo;
+  

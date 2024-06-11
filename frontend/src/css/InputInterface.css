@@ -9,16 +9,26 @@
   border-radius: 12px;
 }
 
-.active-send-btn {
-}
-
-.disabled-send-btn {
-}
-
 .active-send-btn:hover {
   cursor: pointer;
 }
 
 .disabled-send-btn:hover {
   cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+
+}
+
+@media (max-width: 576px) {
+
+}
+
+@media (max-width: 480px) {
+
+}
+
+@media (max-width: 375px) {
+
 }
