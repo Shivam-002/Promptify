@@ -1,9 +1,6 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException, status, Request
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from fastapi.security import OAuth2PasswordBearer
-from google.oauth2 import id_token
-from google.auth.transport import requests
 
 # from routes.chat import router as chat_router
 from routes.query import router as query_router
@@ -19,6 +16,7 @@ origins = [
     "https://localhost:3000",
     "http://localhost:3000/",
     "https://localhost:3000/",
+    "promptify-psi.vercel.app",
 ]
 
 

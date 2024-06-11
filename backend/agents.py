@@ -5,6 +5,9 @@ import google.generativeai as genai
 import os
 from langchain_google_genai import ChatGoogleGenerativeAI
 from tools.search_tool import SearchTools
+from dotenv import load_dotenv
+
+load_dotenv()
 
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 llm_model = ChatGoogleGenerativeAI(
