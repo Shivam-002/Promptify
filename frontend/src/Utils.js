@@ -10,7 +10,7 @@ export const STATE_HINTS = {
   error: "Error",
 };
 
-export const BASE_URL = "http://localhost:8000/api/v1/";
+export const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 export const ENDPOINTS = {
   QUERY: `${BASE_URL}query`,
   LOGIN: `${BASE_URL}auth/google`,
