@@ -14,6 +14,7 @@ export const query = async (input_prompt, context, on_succes, on_failure) => {
     return request;
   });
   const endpoint = `${ENDPOINTS.QUERY}?input_prompt=${input_prompt}&context=${context}`;
+  console.log("Endpoint: ", endpoint);
   await axios.get(endpoint, get_auth_header()).then(
     (response) => {
       on_succes(response);
