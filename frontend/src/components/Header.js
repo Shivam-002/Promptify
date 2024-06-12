@@ -48,7 +48,7 @@ function Header() {
   };
 
   useEffect(() => {
-    // fetchUser();
+    fetchUser();
   }, []);
 
   const onGoogleLoginError = (error) => {

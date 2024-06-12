@@ -24,16 +24,6 @@ origins = [
 CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-
-@app.middleware("http")
 async def verify_google_token(request: Request, call_next):
     print("Request : ", request)
     print("Headers : ", request.headers)
@@ -67,6 +57,16 @@ async def verify_google_token(request: Request, call_next):
     response = await call_next(request)
     return response
 
+
+app.middleware("http")(verify_google_token)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(query_router, prefix="/api/v1/query", tags=["Query"])
 
