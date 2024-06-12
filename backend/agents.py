@@ -89,36 +89,3 @@ class CustomAgents:
             verbose=True,
             llm=llm_model,
         )
-
-    # def prompt_builder(self):
-    #     return Agent(
-    #         role="Prompt Builder",
-    #         backstory=dedent(
-    #             f"""
-    #             You are an expert in creating high-quality prompts. You have a deep 
-    #             understanding of prompt engineering.
-
-    #             You have expertise in creating high-quality prompts for AI models.
-
-    #     """
-    #         ),
-    #         goal=dedent(
-    #             f"""
-    #             With the provided plan, generate a more descriptive prompt that is
-    #             well-structured, clear, concise and descriptive.
-
-    #             The prompt should be more about describing the input prompt in a
-    #             well-structured way not to answer it.
-
-    #             Use this words(not compulsory):
-    #             [provide, cover, explain, describe, give, answer, write, response,
-    #              generate, create, build, develop, construct, compose, make, define,
-    #              design, etc...]
-    #     """
-    #         ),
-    #         allow_delegation=False,
-    #         verbose=True,
-    #         llm=llm_model,
-    #     )
-
-
